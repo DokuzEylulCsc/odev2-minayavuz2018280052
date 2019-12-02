@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Mina Yavuz</title>
+	
+		<h3>Mina YAVUZ 2018280052</h3>
+		<h2>2019 GUZ DONEMI 2. ODEVI</h2>
+		<br>
+		
+		<script type="text/javascript">
+			
+
+			function sayiToRoma() {
+
+				var sayi = parseInt(document.getElementById("input_sayi").value);
+
+					if (sayi>3999) {
+					alert("1 ile 3999 arası bir sayı giriniz.");
+					return
+					}
+			  
+			  // sayiyi basamaklarina ayir
+			  
+			  var tempSayi = sayi;
+
+			  // birler basamagi
+			  var rakam1 = tempSayi % 10;
+
+			  // onlar basamagi
+			  tempSayi = (tempSayi - rakam1) / 10;
+			  var rakam10 = tempSayi % 10;
+
+			  // yuzler basamagi
+			  tempSayi = (tempSayi - rakam10) / 10;
+			  var rakam100 = tempSayi % 10;
+
+			  // binler basamagi
+			  tempSayi = (tempSayi - rakam100) / 10;
+			  var rakam1000 = tempSayi % 10;
+
+
+			  //
+			  // her basamak icin roma rakami karsiligini bulup birbirine ekle
+			  //
+
+			  var romaStr = rakamToRoma(rakam1000, "M", "", "")
+			  romaStr += rakamToRoma(rakam100, "C", "D", "M")
+			  romaStr += rakamToRoma(rakam10, "X", "L", "C")
+			  romaStr += rakamToRoma(rakam1, "I", "V", "X")
+
+				document.getElementById("txtOutput1").innerText = romaStr;
+				
+			  
+			}
+
+			function rakamToRoma(deger, roma1, roma5, roma10) {
+				
+			  if (deger == 0)
+				return "";
+			  
+			  if (deger == 9) {
+				// IX
+				return roma1 + roma10;
+			  }
+			  
+				else if (deger >=5) {
+				// V, VI, VII, VIII
+				var ret = roma5;
+				var count1 = deger - 5;
+				for (var i=0; i<count1; i++) {
+					ret = ret + roma1;
+				}
+				return ret;
+			  }
+			  
+			  else if (deger==4) {
+				// IV
+				return roma1 + roma5;
+			  }
+			  
+			  else if (deger<=3) {
+				// I, II, III
+				var ret = "";
+				var count1 = deger;
+				for (var i=0; i<count1; i++) {
+					ret = ret + roma1;
+				}
+				return ret;
+			  }
+			}
+
+			// roma rakamları
+			function romaRakamDegeri(r) 
+			{
+			  if (r == "I") 
+				return 1; 
+			  else if (r == "V") 
+				return 5; 
+			  else if (r == "X") 
+				return 10; 
+			  else if (r == "L") 
+				return 50; 
+			  else if (r == "C") 
+				return 100; 
+			  else if (r == "D") 
+				return 500; 
+			  else if (r == "M") 
+				return 1000; 
+				
+			  else return -1; 
+			} 
+
+			function romaToSayi(str) 
+			{ 
+				
+			  var romaStr = document.getElementById("input_roma").value;
+			  
+			  var sayi = 0; 
+
+			  for (var i=0; i<romaStr.length; i++) 
+			  {
+				var basamak1 = romaRakamDegeri(romaStr.substring(i, i+1));
+				
+				// bir sonraki basamağı kontrol et, eksi mi değil mi?
+				
+				if (i+1 < romaStr.length)
+				{ 
+				  var basamak2 = romaRakamDegeri(romaStr.substring(i+1, i+2));
+				  if (basamak1 >= basamak2)
+				  {
+					sayi += basamak1; 
+				  } 
+				  else
+				  { 
+					// IV, IX, XL gibi durumlar
+					sayi += basamak2 - basamak1; 
+					i++;
+				  } 
+				} 
+				else
+				{
+					// son basamak
+				  sayi += basamak1; 
+				  i++; 
+				} 
+			  } 
+
+			  document.getElementById("txtOutput2").innerText = sayi;
+			  
+			} 
+		//destek aldigim kaynaklari da not duseyim:)
+		//https://www.geeksforgeeks.org/converting-roman-numerals-decimal-lying-1-3999/
+		//https://trans4mind.com/personal_development/JavaScript2/alertCode.htm
+	
+		</script>
+	</head>
+	<body>
+	
+		Sayı: <input type="text" id="input_sayi" />
+		<br/><br/>
+		<input type="button" onclick="sayiToRoma()" value="Roma Rakamına Çevir" />
+		<br/><br/>
+		<div id="txtOutput1"></div>
+
+		<br/><br/><br/>
+
+		Roma Rakamı: <input type="text" id="input_roma" />
+		<br/><br/>
+		<input type="button" onclick="romaToSayi()" value="Sayıya Çevir" />
+		<br/><br/>
+		<div id="txtOutput2"></div>
+	
+	
+	</body>
+</html>
